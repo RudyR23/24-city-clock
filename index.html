@@ -16,7 +16,7 @@
     body {
       margin: 0;
       height: 100vh;
-      background: radial-gradient(ellipse at bottom, #020214 0%, #000000 60%, #000000 100%);
+      background: radial-gradient(ellipse at bottom, #000000 0%, #000000 100%);
       color: var(--fg);
       font-family: sans-serif;
       overflow: hidden;
@@ -66,7 +66,8 @@
       height: 42px;
       position: relative;
       z-index: 3;
-      overflow: hidden; /* ensures cities/triangles are clipped at edges */
+      overflow: hidden; /* clip cities/triangles at edges */
+      background-color: #000000; /* force solid black */
     }
     .cities-container.am {
       background: linear-gradient(to right, #000000, var(--tab-bg), #f28c28, #87ceeb);
@@ -97,7 +98,7 @@
       display: grid;
       grid-template-columns: repeat(12, 1fr);
       height: var(--clock-h);
-      background: black;
+      background: #000000; /* force solid black */
       border: 2px solid var(--border);
       border-radius: 12px;
       overflow: hidden;
@@ -112,9 +113,10 @@
       font-size: 3.4em;
       font-weight: 700;
       color: var(--fg);
-      background: black;
+      background: #000000; /* force solid black */
       border-right: 2px solid var(--border);
       line-height: 1;
+      position: relative;
     }
     .numbers-container .num:last-child { border-right: none; }
 
@@ -187,7 +189,7 @@
 
   <header>
     <h1>The 24 City Clock</h1>
-    <h2>Time is static - it's the Earth that moves</h2>
+    <h2>Time is static – it's the Earth that moves</h2>
   </header>
 
   <div class="clock">
@@ -203,7 +205,7 @@
     </div>
 
     <div class="bar-wrap">
-          <div class="cities-container pm" id="pm"></div>
+      <div class="cities-container pm" id="pm"></div>
       <div class="tab pm-tab">PM</div>
     </div>
   </div>
@@ -228,7 +230,7 @@
       "MOSCOW": { country: "Russia", tz: "Europe/Moscow", flag: "https://flagcdn.com/ru.svg", pop: "12.5M" },
       "CAIRO": { country: "Egypt", tz: "Africa/Cairo", flag: "https://flagcdn.com/eg.svg", pop: "20M" },
       "BERLIN": { country: "Germany", tz: "Europe/Berlin", flag: "https://flagcdn.com/de.svg", pop: "3.8M" },
-      "LONDON": { country: "England", tz: "Europe/London", flag: "https://flagcdn.com/gb-eng.svg", pop: "9M" },
+      "LONDON": { country: "UK", tz: "Europe/London", flag: "https://flagcdn.com/gb.svg", pop: "9M" },
       "PRAIA": { country: "Cape Verde", tz: "Atlantic/Cape_Verde", flag: "https://flagcdn.com/cv.svg", pop: "160K" },
       "NORONHA": { country: "Brazil", tz: "America/Noronha", flag: "https://flagcdn.com/br.svg", pop: "3K" },
       "RIO": { country: "Brazil", tz: "America/Sao_Paulo", flag: "https://flagcdn.com/br.svg", pop: "6.7M" },
@@ -267,12 +269,10 @@
       label.textContent = name;
       wrap.appendChild(label);
 
-      // Add triangle
       const triangle = document.createElement('div');
       triangle.className = 'city-triangle ' + (targetIsAM ? 'am' : 'pm');
       wrap.appendChild(triangle);
 
-      // Hover popup
       wrap.addEventListener('mouseenter', () => {
         const existing = document.querySelector('.info-box');
         if (existing) existing.remove();
@@ -322,7 +322,6 @@
         wrap.style.left = percent + '%';
         (isAM ? amRow : pmRow).appendChild(wrap);
 
-        // Wrap-around duplication near 11 ↔ 1
         const threshold = 5;
         if (percent >= (100 - threshold)) {
           const dup = makeCityWrap(name, !isAM);
@@ -361,13 +360,14 @@
       setTimeout(() => star.remove(), 2000);
     }
 
-    setInterval(shootingStar, 3600000);
+       setInterval(shootingStar, 360000);
 
-    // Boot
-    initStars();
-    renderAll24();
-    setInterval(renderAll24, 1000);
+    // Boot wrapped in DOMContentLoaded so stars always show
+    window.addEventListener("DOMContentLoaded", () => {
+      initStars();
+      renderAll24();
+      setInterval(renderAll24, 1000);
+    });
   </script>
 </body>
 </html>
-
