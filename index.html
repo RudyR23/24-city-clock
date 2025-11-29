@@ -146,25 +146,27 @@
     }
 
     .city-triangle {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 0;
-      height: 0;
-      z-index: 4;
-    }
-    .city-triangle.am {
-      top: 27px;
-      border-left: 8px solid transparent;
-      border-right: 8px solid transparent;
-      border-top: 8px solid #ffffff;
-    }
-    .city-triangle.pm {
-      bottom: 27px;
-      border-left: 8px solid transparent;
-      border-right: 8px solid transparent;
-      border-bottom: 8px solid #ffffff;
-    }
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;   /* adjust size as needed */
+  height: 10px;  /* adjust size as needed */
+  background: #ffffff;   /* solid white fill */
+  z-index: 4;
+}
+
+/* Upward pointing triangle for AM */
+.city-triangle.am {
+  top: 27px;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+/* Downward pointing triangle for PM */
+.city-triangle.pm {
+  bottom: 27px;
+  clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+}
+
 
     .info-box {
       position: fixed;
@@ -381,6 +383,7 @@
   </script>
 </body>
 </html>
+
 
 
 
