@@ -26,6 +26,21 @@
       cursor: default;
     }
 
+    .stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+    .star {
+      position: absolute; width: 2px; height: 2px; background: #fff; border-radius: 50%;
+      opacity: 0.6; animation: twinkle 10s ease-in-out infinite;
+      box-shadow: 0 0 6px rgba(255,255,255,0.6);
+    }
+    @keyframes twinkle { 0%,100%{opacity:.5;transform:scale(1);}50%{opacity:1;transform:scale(1.5);} }
+
+    .shooting-star {
+      position: fixed; width: 2px; height: 2px; background: white;
+      box-shadow: 0 0 8px white; border-radius: 50%;
+      animation: shoot 2s linear forwards; z-index: 1;
+    }
+    @keyframes shoot { from{transform:translate(0,0);opacity:1;} to{transform:translate(500px,-200px);opacity:0;} }
+
     header, footer { text-align: center; z-index: 2; color: #ffffff; }
     header { margin-top: 50px; }
     footer { margin-bottom: 50px; font-size: 0.9em; opacity: 0.95; }
@@ -333,10 +348,42 @@
         }
       });
     }
+
+    function initStars() {
+      const container = document.getElementById('stars');
+      const count = 80;
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      for (let i = 0; i < count; i++) {
+        const s = document.createElement('div');
+        s.className = 'star';
+        s.style.left = Math.random() * w + 'px';
+        s.style.top = Math.random() * h + 'px';
+        s.style.animationDelay = Math.random() * 10 + 's';
+        container.appendChild(s);
+      }
+    }
+
+    function shootingStar() {
+      const star = document.createElement('div');
+      star.className = 'shooting-star';
+      star.style.top = Math.random() * window.innerHeight + 'px';
+      star.style.left = Math.random() * window.innerWidth/2 + 'px';
+      document.body.appendChild(star);
+      setTimeout(() => star.remove(), 2000);
+    }
+
+       setInterval(shootingStar, 360000);
+
+    // Boot wrapped in DOMContentLoaded so stars always show
+    window.addEventListener("DOMContentLoaded", () => {
+      initStars();
+      renderAll24();
+      setInterval(renderAll24, 1000);
+    });
   </script>
 </body>
 </html>
-
 
 
 
