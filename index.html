@@ -149,9 +149,9 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  width: 16px;   /* adjust size as needed */
-  height: 10px;  /* adjust size as needed */
-  background: #ffffff;   /* solid white fill */
+  width: 16px;
+  height: 12px;
+  background: #ffffff !important; /* force solid white fill */
   z-index: 4;
 }
 
@@ -164,9 +164,8 @@
 /* Downward pointing triangle for PM */
 .city-triangle.pm {
   bottom: 27px;
-  clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+  clip-path: polygon(50% 100%, 0% 0%, 100% 0%);
 }
-
 
     .info-box {
       position: fixed;
@@ -383,6 +382,7 @@
   </script>
 </body>
 </html>
+
 
 
 
